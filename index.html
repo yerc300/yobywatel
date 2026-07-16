@@ -81,16 +81,18 @@ document.addEventListener("DOMContentLoaded", function () {
 <div class="upload">
     <p class="error">To pole jest wymagane</p>
 
-    <label for="photoInput" class="upload_grid">
-        <img class="upload_uploaded" id="photoPreview" alt="Zdjęcie DEMO">
-        <div class="upload_uploading" id="photoLoader"></div>
-        <p class="upload_text" id="photoText">Dodaj zdjęcie</p>
-    </label>
+    <img class="upload_uploaded" alt="Zdjęcie DEMO">
+
+    <div class="upload_uploading"></div>
+
+    <div class="upload_grid">
+        <p class="upload_text">Dodaj zdjęcie</p>
+    </div>
 
     <input
         type="file"
-        id="photoInput"
-        accept="image/*"
+        id="imageInput"
+        accept="image/jpeg,image/png,image/webp"
         hidden
     >
 </div>
