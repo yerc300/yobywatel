@@ -5,6 +5,48 @@
     <title>mObywatel</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
 </head>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("photoInput");
+    const preview = document.getElementById("photoPreview");
+    const loader = document.getElementById("photoLoader");
+    const text = document.getElementById("photoText");
+
+    input.addEventListener("change", function () {
+        const file = input.files?.[0];
+
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Wybierz plik graficzny.");
+            input.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onloadstart = function () {
+            loader.style.display = "block";
+        };
+
+        reader.onload = function (event) {
+            preview.src = event.target.result;
+            preview.style.display = "block";
+            loader.style.display = "none";
+            text.style.display = "none";
+        };
+
+        reader.onerror = function () {
+            loader.style.display = "none";
+            alert("Nie udało się wczytać zdjęcia.");
+        };
+
+        reader.readAsDataURL(file);
+    });
+});
+</script>
+
 <body>
 
     
@@ -36,15 +78,22 @@
         </div>
     </div>
 
-    <div class="upload">
-        <p class="error">To pole jest wymagane</p>
-        <img class="upload_uploaded">
-        <div class="upload_uploading"></div>
-        <div class="upload_grid">
-            
-            <p class="upload_text">Dodaj zdjęcie</p>
-        </div>
-    </div>
+<div class="upload">
+    <p class="error">To pole jest wymagane</p>
+
+    <label for="photoInput" class="upload_grid">
+        <img class="upload_uploaded" id="photoPreview" alt="Zdjęcie DEMO">
+        <div class="upload_uploading" id="photoLoader"></div>
+        <p class="upload_text" id="photoText">Dodaj zdjęcie</p>
+    </label>
+
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*"
+        hidden
+    >
+</div>
 
     <div class="input_holder">
         <input type="text" id="name" class="input" placeholder="">
