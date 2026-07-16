@@ -629,3 +629,17 @@ input:focus{
     padding: 10px; 
     font-size: 16px;
 }
+
+.upload_grid {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.upload_uploaded {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
