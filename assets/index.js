@@ -23,27 +23,56 @@ document.querySelectorAll(".selector_option").forEach((option) => {
     })
 })
 
-var upload = document.querySelector(".upload");
+const upload = document.querySelector(".upload");
+const imageInput = document.getElementById("imageInput");
+const preview = upload.querySelector(".upload_uploaded");
 
-var imageInput = document.createElement("input");
-imageInput.type = "file";
-imageInput.accept = ".jpeg,.png,.gif";
-
-document.querySelectorAll(".input_holder").forEach((element) => {
-
-    var input = element.querySelector(".input");
-    input.addEventListener('click', () => {
-        element.classList.remove("error_shown");
-    })
-
-});
-
-upload.addEventListener('click', () => {
+upload.addEventListener("click", function () {
     imageInput.click();
-    upload.classList.remove("error_shown")
+    upload.classList.remove("error_shown");
 });
 
-imageInput.addEventListener('change', (event) => {
+imageInput.addEventListener("change", function () {
+    const file = imageInput.files?.[0];
+
+    if (!file) {
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+        alert("Wybierz plik graficzny.");
+        imageInput.value = "";
+        return;
+    }
+
+    upload.classList.remove("upload_loaded");
+    upload.classList.add("upload_loading");
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+        const imageData = event.target.result;
+
+        preview.src = imageData;
+
+        // Przechowuje zdjęcie lokalnie w przeglądarce.
+        localStorage.setItem("demoProfileImage", imageData);
+
+        // Kod przycisku „wejdź” sprawdza obecność tego atrybutu.
+        upload.setAttribute("selected", "local");
+
+        upload.classList.remove("upload_loading");
+        upload.classList.add("upload_loaded");
+        upload.classList.remove("error_shown");
+    };
+
+    reader.onerror = function () {
+        upload.classList.remove("upload_loading");
+        alert("Nie udało się odczytać zdjęcia.");
+    };
+
+    reader.readAsDataURL(file);
+});
 
     upload.classList.remove("upload_loaded");
     upload.classList.add("upload_loading");
